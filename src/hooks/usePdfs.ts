@@ -8,6 +8,8 @@ export interface PdfFile {
   original_filename: string;
   file_size: number;
   file_url: string;
+  folder_id: string | null;
+  summary: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -44,7 +46,8 @@ export function usePdfs() {
 
   const uploadPdf = async (
     file: File,
-    onProgress?: (progress: number) => void
+    onProgress?: (progress: number) => void,
+    folderId?: string | null
   ): Promise<{ success: boolean; error?: string }> => {
     if (!user) return { success: false, error: 'Not authenticated' };
 
@@ -89,6 +92,7 @@ export function usePdfs() {
       original_filename: file.name,
       file_size: file.size,
       file_url: urlData.publicUrl,
+      folder_id: folderId || null,
     });
 
     if (dbError) {
@@ -142,5 +146,23 @@ export function usePdfs() {
     return data.signedUrl;
   };
 
-  return { pdfs, loading, uploadPdf, deletePdf, getSignedUrl, refetch: fetchPdfs };
+  const updatePdfFolder = async (
+    pdfId: string,
+    folderId: string | null
+  ): Promise<{ success: boolean; error?: string }> => {
+    const { error } = await supabase
+      .from('pdfs')
+      .update({ folder_id: folderId })
+      .eq('id', pdfId);
+
+    if (error) {
+      console.error('Error updating PDF folder:', error);
+      return { success: false, error: error.message };
+    }
+
+    await fetchPdfs();
+    return { success: true };
+  };
+
+  return { pdfs, loading, uploadPdf, deletePdf, getSignedUrl, updatePdfFolder, refetch: fetchPdfs };
 }
