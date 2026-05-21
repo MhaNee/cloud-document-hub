@@ -1,73 +1,96 @@
-# Welcome to your Lovable project
+# PDF Manager
 
-## Project info
+A full-featured PDF management application built with React, TypeScript, and Lovable Cloud. Upload, organize, summarize, and manage your PDF documents with an elegant, modern interface.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- **Authentication** — Secure email-based sign up and sign in with Lovable Cloud.
+- **PDF Upload** — Drag & drop PDF files with upload progress tracking and client-side validation.
+- **PDF Storage** — Securely store and access PDFs via Lovable Cloud storage.
+- **Folder Organization** — Create custom folders with colors and categorize your PDFs.
+- **AI Summarization** — Generate concise summaries of PDF content using Lovable AI (Gemini).
+- **PDF Viewer** — Built-in embedded PDF viewer for quick previews.
+- **Search & Filter** — Search your PDF library and filter by folder.
+- **Role-Based Access** — User and admin roles with an admin panel to manage all users and PDFs.
+- **Responsive Design** — Fully responsive UI that works across devices.
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend:** React 18, TypeScript, Vite 5, Tailwind CSS, shadcn/ui
+- **Backend:** Lovable Cloud (PostgreSQL, Authentication, File Storage, Edge Functions)
+- **AI:** Lovable AI Gateway with Gemini models
+- **State Management:** React hooks, TanStack Query
+- **UI Components:** Radix UI primitives via shadcn/ui
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js & npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### Local Development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
+# Navigate to the project directory
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
+# Install dependencies
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The dev server will start with auto-reloading at `http://localhost:5173`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Admin Setup
 
-**Use GitHub Codespaces**
+To grant admin privileges to a user, run the following SQL against your database:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```sql
+UPDATE user_roles SET role = 'admin' WHERE user_id = 'YOUR_USER_ID';
+```
 
-## What technologies are used for this project?
+## Project Structure
 
-This project is built with:
+```
+src/
+  components/       # React components (Auth, Dashboard, PDF upload/list/viewer, Admin, Folders)
+  hooks/            # Custom React hooks (useAuth, usePdfs, useFolders, useUserRole, useAdminData)
+  integrations/     # Lovable Cloud / Supabase client configuration
+  pages/            # Route pages (Index, NotFound)
+  lib/              # Utility functions
+  components/ui/    # shadcn/ui component primitives
+supabase/
+  functions/        # Edge functions (AI summarization)
+  migrations/       # Database schema migrations
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Available Scripts
 
-## How can I deploy this project?
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start the Vite development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Deployment
 
-## Can I connect a custom domain to my Lovable project?
+This project is deployed via [Lovable](https://lovable.dev). Open your project and click **Share → Publish** to deploy.
 
-Yes, you can!
+## Custom Domain
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+You can connect a custom domain to your deployed project:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+1. Navigate to **Project → Settings → Domains**
+2. Click **Connect Domain**
+
+Read more: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## License
+
+MIT
